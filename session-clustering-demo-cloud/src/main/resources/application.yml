@@ -1,0 +1,10 @@
+zuul:
+  routes:
+    msg:
+      url: http://localhost:9080
+    backend-api:
+      path: /backend**
+      url: http://localhost:9090
+
+server:
+  port: 8080

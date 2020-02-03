@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="session-clustering-demo-message" />
+        <module name="session-clustering-demo-backend" />
+        <module name="session-clustering-demo-cloud" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="session-clustering-demo-backend" target="1.8" />
+      <module name="session-clustering-demo-cloud" target="1.8" />
+      <module name="session-clustering-demo-message" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="session-clustering-demo-backend" options="-parameters" />
+      <module name="session-clustering-demo-cloud" options="-parameters" />
+      <module name="session-clustering-demo-message" options="-parameters" />
+    </option>
+  </component>
+</project>

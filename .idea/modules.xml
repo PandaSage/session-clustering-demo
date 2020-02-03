@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/session-clustering-demo-backend/session-clustering-demo-backend.iml" filepath="$PROJECT_DIR$/session-clustering-demo-backend/session-clustering-demo-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/session-clustering-demo-cloud/session-clustering-demo-cloud.iml" filepath="$PROJECT_DIR$/session-clustering-demo-cloud/session-clustering-demo-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/session-clustering-demo-message/session-clustering-demo-message.iml" filepath="$PROJECT_DIR$/session-clustering-demo-message/session-clustering-demo-message.iml" />
+    </modules>
+  </component>
+</project>
