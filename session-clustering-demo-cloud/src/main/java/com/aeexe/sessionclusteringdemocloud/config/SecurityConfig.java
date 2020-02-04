@@ -19,7 +19,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/test/**", "/msg/**").permitAll()
 
-                .antMatchers("/backend/**").hasRole("BACKEND");
+                .antMatchers("/backend/**").permitAll();
+//                .antMatchers("/backend/**").hasRole("BACKEND");
 //                .antMatchers().permitAll();
     }
 

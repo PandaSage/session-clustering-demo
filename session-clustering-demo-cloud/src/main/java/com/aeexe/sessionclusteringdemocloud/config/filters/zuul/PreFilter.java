@@ -1,25 +1,27 @@
-package com.aeexe.sessionclusteringdemocloud.config.filters;
+package com.aeexe.sessionclusteringdemocloud.config.filters.zuul;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.UUID;
+import java.util.Optional;
 
-import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.*;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_DECORATION_FILTER_ORDER;
+import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.PRE_TYPE;
 
 /**
- * client의 요청 정보에 access token 을 발행 하기 위한 전처리 필터
+ * client의 요청 정보의 정합성을 확인 하기 위한 전처리 필터
+ * 혹은 backend 에 전달 될 request 를 가공하는 전처리 필터
  * 참조 https://spring.io/guides/gs/routing-and-filtering/
  * 참조 https://supawer0728.github.io/2018/03/11/Spring-Cloud-Zuul/
  */
 @Slf4j
-public class BackendPreFilter extends ZuulFilter {
+public class PreFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return PRE_DECORATION_FILTER_ORDER - 1; // run before PreDecoration
+        return PRE_DECORATION_FILTER_ORDER; // run before PreDecoration
     }
 
     @Override
@@ -37,7 +39,7 @@ public class BackendPreFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         RequestContext context = RequestContext.getCurrentContext();
-        return "backend-api".equals(context.get(SERVICE_ID_KEY));
+        return true;
     }
 
     @Override
@@ -47,15 +49,13 @@ public class BackendPreFilter extends ZuulFilter {
 
         log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
-        String aeexeToken = AccessTokenToAeexe(request);
-        context.addZuulRequestHeader("X-AEEXE-TOKEN", aeexeToken);
+        String axToken = Optional.ofNullable(request.getHeader("X-AEEXE-TOKEN")).orElse("Non");
+
+        if ("Non".equals(axToken)) {
+            //TODO HasNotTokenException 필요~~~~~~~~
+            throw new NullPointerException("has not token!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
         return null;
     }
 
-    //create access token for client
-    private String AccessTokenToAeexe(HttpServletRequest request) {
-        //TODO 차후 request 에서 특정 정보를 받아 가공 or 매핑 하는 방식으로 변경
-        //일단 sampling 에서는 random uuid 발행
-        return UUID.randomUUID().toString();
-    }
 }

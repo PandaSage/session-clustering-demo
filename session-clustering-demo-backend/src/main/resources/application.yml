@@ -8,6 +8,5 @@ spring:
         max-idle: 10
         min-idle: 2
 
-
 server:
   port: 9090
