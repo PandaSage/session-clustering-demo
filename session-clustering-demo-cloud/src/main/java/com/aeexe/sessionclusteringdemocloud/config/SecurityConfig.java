@@ -19,16 +19,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/test/**", "/msg/**").permitAll()
 
-                .antMatchers("/backend/**").permitAll();
-//                .antMatchers("/backend/**").hasRole("BACKEND");
+//                .antMatchers("/backend/**").permitAll();
+                .antMatchers("/backend/**").hasRole("BACKEND");
 //                .antMatchers().permitAll();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
+                .withUser("user").password("{noop}password").roles("USER")
                 .and()
-                .withUser("admin").password("admin").roles("USER", "ADMIN");
+                .withUser("admin").password("{noop}admin").roles("USER", "BACKEND");
     }
 }

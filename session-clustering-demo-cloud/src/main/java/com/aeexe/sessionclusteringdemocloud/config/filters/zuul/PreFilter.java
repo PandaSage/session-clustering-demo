@@ -51,10 +51,10 @@ public class PreFilter extends ZuulFilter {
 
         String axToken = Optional.ofNullable(request.getHeader("X-AEEXE-TOKEN")).orElse("Non");
 
-        if ("Non".equals(axToken)) {
-            //TODO HasNotTokenException 필요~~~~~~~~
-            throw new NullPointerException("has not token!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        }
+//        if ("Non".equals(axToken)) {
+//            //TODO HasNotTokenException 필요~~~~~~~~
+//            throw new NullPointerException("has not token!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        }
         return null;
     }
 
