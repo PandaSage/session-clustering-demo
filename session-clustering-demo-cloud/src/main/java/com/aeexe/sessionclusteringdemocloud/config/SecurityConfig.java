@@ -1,5 +1,6 @@
 package com.aeexe.sessionclusteringdemocloud.config;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
+@EnableAutoConfiguration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
@@ -17,10 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/test/**", "/msg/**").permitAll()
-
-//                .antMatchers("/backend/**").permitAll();
-                .antMatchers("/backend/**").hasRole("BACKEND");
+                .antMatchers("/*").hasRole("ADMIN")
+//                .anyRequest().hasRole("ADMIN");
+                .antMatchers("/msg/*").hasRole("ADMIN");
+//                .antMatchers("/test**").hasRole("ADMIN")
+//                .antMatchers("/backend*").hasRole("ADMIN");
+//                .antMatchers("/backend/*").hasRole("BACKEND"
 //                .antMatchers().permitAll();
     }
 
@@ -29,6 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser("user").password("{noop}password").roles("USER")
                 .and()
-                .withUser("admin").password("{noop}admin").roles("USER", "BACKEND");
+                .withUser("admin").password("{noop}admin").roles("ADMIN");
     }
 }

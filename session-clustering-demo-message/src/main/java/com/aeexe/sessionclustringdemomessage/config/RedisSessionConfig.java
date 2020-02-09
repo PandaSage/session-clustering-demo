@@ -5,6 +5,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 
 @EnableRedisHttpSession
 public class RedisSessionConfig {
@@ -23,5 +25,10 @@ public class RedisSessionConfig {
         redisTemplate.setConnectionFactory(connectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         return redisTemplate;
+    }
+
+    @Bean
+    public HttpSessionIdResolver sessionIdResolver() {
+        return new HeaderHttpSessionIdResolver("x-aeexe-token");
     }
 }

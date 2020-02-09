@@ -5,7 +5,7 @@ import com.netflix.zuul.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.UUID;
+import javax.servlet.http.HttpSession;
 
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.ROUTE_TYPE;
 import static org.springframework.cloud.netflix.zuul.filters.support.FilterConstants.SIMPLE_HOST_ROUTING_FILTER_ORDER;
@@ -45,20 +45,22 @@ public class RouteFilter extends ZuulFilter {
     public Object run() {
         RequestContext context = RequestContext.getCurrentContext();
         HttpServletRequest request = context.getRequest();
+        HttpSession session = request.getSession();
 
-        log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+        log.info(String.format("###### %s request to %s", request.getMethod(), request.getRequestURL().toString()));
+        log.info(String.format("###### session : %s", session.toString()));
 
-        String aeexeToken = AccessTokenToAeexe(request);
+        String aeexeToken = AccessTokenToAeexe(session);
         log.info(String.format("X-AEEXE-TOKEN : %s", aeexeToken));
         context.addZuulRequestHeader("X-AEEXE-TOKEN", aeexeToken);
         return null;
     }
 
     //create access token for client
-    private String AccessTokenToAeexe(HttpServletRequest request) {
+    private String AccessTokenToAeexe(HttpSession session) {
         //TODO 차후 request 에서 특정 정보를 받아 가공 or 매핑 하는 방식으로 변경
         //일단 sampling 에서는 random uuid 발행
-        return UUID.randomUUID().toString();
+        return session.getId();
     }
 
 //    아래의 예제는 Servlet Request를 OkHttp3 Request로 변환하고, 요청을 실행하고,

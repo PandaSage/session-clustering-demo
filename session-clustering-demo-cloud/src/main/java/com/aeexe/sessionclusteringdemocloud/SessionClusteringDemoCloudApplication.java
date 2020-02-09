@@ -19,7 +19,7 @@ public class SessionClusteringDemoCloudApplication {
     //	참조 https://spring.io/guides/gs/routing-and-filtering/
     @Bean
     public PreFilter preFilter() {
-        return new PreFilter();
+        return new PreFilter("x-auth-token");
     }
 
     @Bean

@@ -4,6 +4,8 @@ zuul:
       url: http://localhost:9080
     backend:
       url: http://localhost:9090
-
 server:
   port: 8080
+spring:
+  session:
+    store-type: redis
