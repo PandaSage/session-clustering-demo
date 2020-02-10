@@ -7,6 +7,8 @@ spring:
         max-active: 10
         max-idle: 10
         min-idle: 2
+  session:
+    store-type: redis
 
   server:
     port: 9090

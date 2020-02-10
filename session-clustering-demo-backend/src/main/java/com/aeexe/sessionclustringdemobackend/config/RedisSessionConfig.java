@@ -24,4 +24,5 @@ public class RedisSessionConfig {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         return redisTemplate;
     }
+
 }

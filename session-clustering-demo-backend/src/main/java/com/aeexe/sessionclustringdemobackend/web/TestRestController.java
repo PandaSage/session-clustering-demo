@@ -1,8 +1,10 @@
 package com.aeexe.sessionclustringdemobackend.web;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,14 +17,20 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 public class TestRestController {
     @Value("${CF_INSTANCE_IP:127.0.0.1}")
     private Object ip;
 
+    private final FindByIndexNameSessionRepository sessionRepository;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity welcome() {
-        return new ResponseEntity("Welcome. ADMIN SERVER", HttpStatus.OK);
+        Map admin = sessionRepository.findByPrincipalName("admin");
+        StringBuilder strb = new StringBuilder();
+        strb.append("Welcome. ADMIN SERVER\n");//.append("session info : %s", admin.get())
+        return new ResponseEntity("", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/time", method = RequestMethod.POST)

@@ -3,12 +3,12 @@ package com.aeexe.sessionclustringdemobackend.config;
 
 import com.aeexe.sessionclustringdemobackend.repository.TokenRepositoryImpl;
 import com.aeexe.sessionclustringdemobackend.serviceImpl.AuthProviderImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,9 +19,8 @@ import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.web.cors.CorsUtils;
 
-@RequiredArgsConstructor
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final static String REMEMBER_ME_KEY = "remember-me";
@@ -31,6 +30,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     private final FindByIndexNameSessionRepository sessionRepository;
+
+    public WebSecurityConfig(AuthProviderImpl authProvider, UserDetailsService userDetailsService, FindByIndexNameSessionRepository sessionRepository) {
+        this.authProvider = authProvider;
+        this.userDetailsService = userDetailsService;
+        this.sessionRepository = sessionRepository;
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -99,10 +105,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
     }
 
-    @RequiredArgsConstructor
     @Configuration
     public static class AuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter {
         private final UserDetailsService userDetailsService;
+
+        public AuthenticationConfiguration(UserDetailsService userDetailsService) {
+            this.userDetailsService = userDetailsService;
+        }
 
         @Bean
         PasswordEncoder passwordEncoder() {

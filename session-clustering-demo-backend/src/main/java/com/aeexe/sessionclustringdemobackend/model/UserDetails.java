@@ -8,6 +8,6 @@ import java.io.Serializable;
 
 public class UserDetails extends User implements Serializable {
     public UserDetails(USER user) {
-        super(user.getId(), user.getPw(), AuthorityUtils.createAuthorityList("user"));
+        super(user.getId(), user.getPw(), AuthorityUtils.createAuthorityList("BACKEND"));
     }
 }
